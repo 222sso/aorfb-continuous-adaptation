@@ -4,6 +4,13 @@ Code and lightweight numerical snapshots for manuscript v66:
 **Continuous property-weighted adaptation with retained domain support for aqueous redox molecular generation**.
 Authors: Sohyeon Lee, Daewon Chung and Joonhyeon Jeon. Snapshot: `v66-licensed-r1`.
 
+## Data and model checkpoints
+
+The v66 data, model checkpoints, and archived computational
+records are available on Zenodo:
+
+https://doi.org/10.5281/zenodo.23657285
+
 ## Code and data locations
 
 This repository contains the68 existing Python source files used in the v66 archive,
