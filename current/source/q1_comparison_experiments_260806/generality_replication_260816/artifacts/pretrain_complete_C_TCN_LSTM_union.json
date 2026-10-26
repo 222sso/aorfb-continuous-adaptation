@@ -1,0 +1,14 @@
+{
+  "backbone": "C_TCN_LSTM",
+  "corpus": "ChEMBL 60k",
+  "vocabulary": "union(ChEMBL, ZINC250k, QM9)",
+  "vocab_size": 40,
+  "pretrain_seed": 42,
+  "epochs_completed": 100,
+  "selected_epoch": 96,
+  "best_val_loss": 0.20709463953971863,
+  "n_train_encoded": 59687,
+  "n_valid_encoded": 299,
+  "checkpoint": "ckpt_pretrain_C_TCN_LSTM_union.weights.h5",
+  "checkpoint_sha256": "19a1b84f2323a7491aa62c18453a4a5689d9febcdb6236f4ff39368f70b3c502"
+}

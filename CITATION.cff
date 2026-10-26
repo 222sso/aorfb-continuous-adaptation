@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "Cite the v66 manuscript and the exact archived data version once its DOI is issued."
+type: software
+title: "Continuous property-weighted adaptation for aqueous redox molecular generation: v66 code"
+authors:
+  - family-names: Lee
+    given-names: Sohyeon
+  - family-names: Chung
+    given-names: Daewon
+  - family-names: Jeon
+    given-names: Joonhyeon
+version: "v66-licensed-r1"
+license:
+  - MIT
+  - CC-BY-4.0
+abstract: "Original v66 source code, selected configuration files and lightweight numerical summaries. Full molecular data and model checkpoints are distributed separately."

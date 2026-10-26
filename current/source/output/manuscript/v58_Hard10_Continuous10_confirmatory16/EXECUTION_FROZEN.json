@@ -1,0 +1,25 @@
+{
+  "frozen_utc": "2026-10-21T11:46:35.231107+00:00",
+  "training_started_at_freeze": false,
+  "n_runs": 96,
+  "n_pairs_per_backbone": 16,
+  "study_files": {
+    "README.txt": "e7a1765fafbdd1d351715e213b81c8869fdc807192dc7ba76fa53a2dbb798316",
+    "Statistical_analysis_plan_KO.txt": "a6f07ad966865c3b95032f0777772ae117d15296d158d54c32399bca8838c9e1",
+    "analyze.py": "020235027957b8f53405efcc806176fdd481b151c15c6e263e654a00183eda3f",
+    "decoding_seed_plan.csv": "324b2156bc9eba6a2f46a8fa33a0f319bf2c603ac5e098b2add6fb38fbc4f0c9",
+    "frozen_input_hashes.json": "f867832d255071837ec8fc55cfa6a302bf9da865b116dde5b02a43c1ab3d53f7",
+    "generate.py": "f6890fe1a04987a7920dccd37411fd3ba8fa17908aab8061afcf3ff1e2c329c0",
+    "implementation_preflight.json": "fc9d099710a180579ca22b01d4f2c93c8d631914fc5c5250ceb35310bb5aa361",
+    "jobs_96.json": "6a733ec3bb494c76d78e6abf4907205705ec16b4e85909fa259860046eac0265",
+    "preparation_audit.json": "cd5c357eece494d1c58f6a21d87258442c8f1e466484457f9d84635548cf4e62",
+    "protocol.json": "d48a3a9e0ffc444c2115962ae14ed130abf3128c9cce5addd02e10f76d1f7622",
+    "run_queue.py": "aa60dfc08a6edf89b0584e7529729f9299b0398977455c17fdd38bbaffac8b1f",
+    "score_run.py": "7ca735bdb0c3d65148107f330a2091cda078f82888520cd2a1ded01aa8446d0f",
+    "status.py": "fa91ae72fc9134ad9296782380f753fb20fae24128c145770bb46bb96fcfe8ad",
+    "study.py": "5687efd37f7d559c8ab4230be8e8e8309901a0f5303b55629748690940b54d7f",
+    "train_continuous_fixed10.py": "c27963cdc350b7c622ec42b2bf68f4a92eeafae768214a589778c23cbcfff334",
+    "train_hard_fixed10.py": "83f17358a472dfa40868758b8328411eb6d194129872f71bf0006c70f4dfd100",
+    "training_weights_30829.csv.gz": "f1edbc6945273dfdef3e2f075ea1862965f2d37f556836a32d7b928e2d678314"
+  }
+}

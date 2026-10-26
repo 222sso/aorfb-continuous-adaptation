@@ -1,0 +1,7 @@
+# Versions available for the read-only verification performed during packaging.
+numpy==1.26.4
+pandas==2.3.3
+scipy==1.14.0
+rdkit==2025.3.5
+matplotlib==3.9.0
+Pillow==11.3.0

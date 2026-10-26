@@ -1,0 +1,11 @@
+{
+  "python": "3.10.18",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+  "tensorflow": "2.20.0",
+  "rdkit": "2025.03.5",
+  "numpy": "1.26.4",
+  "pandas": "2.3.3",
+  "gpus": [
+    "/physical_device:GPU:0"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "data_version": "v66-licensed-r1",
+  "zenodo_record_url": null,
+  "zenodo_version_doi": null,
+  "archives": [
+    {
+      "file": "AORFB_v66_01_code_data.zip",
+      "bytes": 123890187,
+      "sha256": "c9bb062c31a81fd9368877907141770ee126ccfd6cbb4737f20c79b378ea7900",
+      "files": 1426
+    },
+    {
+      "file": "AORFB_v66_02_current_checkpoints.zip",
+      "bytes": 624888446,
+      "sha256": "203d2f846933530d2c9ffbad3f9acc006ebe602eccc9163b62b168ed32b1b28c",
+      "files": 116
+    },
+    {
+      "file": "AORFB_v66_03_retained_checkpoints.zip",
+      "bytes": 1327393793,
+      "sha256": "4d1cf27c5b7316cf0be6941178b1ac78e5fd494e2097e2fe9ccf72e9366a5c6d",
+      "files": 139
+    },
+    {
+      "file": "AORFB_v66_04_gaussian_records.zip",
+      "bytes": 274180272,
+      "sha256": "3767299c83b76cccd4cad914cd352aef504f2628d8be24a512d7b76d23004e1f",
+      "files": 545
+    }
+  ],
+  "extract_to": "Separate reproduction workspace",
+  "public_record_created": false
+}

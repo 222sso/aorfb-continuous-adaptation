@@ -1,0 +1,182 @@
+{
+  "recorded_utc": "2026-10-21T11:39:23.510400+00:00",
+  "study": "Independent 16-pair Hard10 versus Continuous10 validation in LSTM, TCN, TCN-LSTM",
+  "status": "analysis and stopping rules fixed before any new training; locally timestamped, not externally registered",
+  "training_seeds": [
+    20261021,
+    20261022,
+    20261023,
+    20261024,
+    20261025,
+    20261026,
+    20261027,
+    20261028,
+    20261029,
+    20261030,
+    20261031,
+    20261032,
+    20261033,
+    20261034,
+    20261035,
+    20261036
+  ],
+  "seed_novelty_audit": {
+    "no_existing_seed_directories": true,
+    "prior_exploratory_seeds_excluded": [
+      42,
+      43,
+      44
+    ]
+  },
+  "backbones": {
+    "LSTM": {
+      "model": "B_LSTM",
+      "checkpoint": "q1_comparison_experiments_260806/generality_replication_260816/artifacts/ckpt_pretrain_B_LSTM_union.weights.h5",
+      "sha256": "90a1dc11cad4105d268697f3eb3019feab39d8fad804c40a7625c21d915fe14a"
+    },
+    "TCN": {
+      "model": "A_TCN",
+      "checkpoint": "q1_comparison_experiments_260806/generality_replication_260816/artifacts/ckpt_pretrain_A_TCN_union.weights.h5",
+      "sha256": "7961e100f0ecb6e2b78b258d3911781707a372841bab588582c585b986e4edd0"
+    },
+    "TCN-LSTM": {
+      "model": "C_TCN_LSTM",
+      "checkpoint": "q1_comparison_experiments_260806/generality_replication_260816/artifacts/ckpt_pretrain_C_TCN_LSTM_union.weights.h5",
+      "sha256": "19a1b84f2323a7491aa62c18453a4a5689d9febcdb6236f4ff39368f70b3c502"
+    }
+  },
+  "n_pairs_per_backbone": 16,
+  "n_training_runs": 96,
+  "total_attempts": 864000,
+  "common_training": {
+    "epochs": 10,
+    "steps_per_epoch": 800,
+    "optimizer_updates": 8000,
+    "optimizer": "original Adam",
+    "learning_rate": 0.0001,
+    "nominal_batch_size": 32,
+    "max_length": 128,
+    "vocabulary_size": 40,
+    "ChEMBL_replay_fraction": 0,
+    "validation_n": 311,
+    "validation_target_n": 15,
+    "checkpoint_selection": "final epoch10 only, validation for monitoring; no early stopping",
+    "pretraining": "one existing fixed checkpoint per backbone, shared within pairs",
+    "architecture_precision_dropout_compile": "original defaults unchanged; B_LSTM, never B_LSTM_fast"
+  },
+  "conditions": {
+    "hard_fixed10": {
+      "support_n": 1529,
+      "target_n": 1529,
+      "sampling": "original uniform shuffled/repeated target subset",
+      "loss_weight": 1
+    },
+    "continuous_targetmax10": {
+      "support_n": 30829,
+      "target_n": 1529,
+      "target_weight": 10,
+      "non_target_n": 29300,
+      "non_target_weights": "unchanged original property weights",
+      "high_pool_n": 2045,
+      "low_pool_n": 28784,
+      "high_pool_threshold": 1.2,
+      "high_pool_probability": 0.9,
+      "sampling_and_loss": "same preferential sampling and weighted token loss as v53/v54"
+    }
+  },
+  "evaluation": {
+    "temperatures": [
+      0.7,
+      0.9,
+      1.1
+    ],
+    "top_ps": [
+      0.75,
+      0.85,
+      0.95
+    ],
+    "attempts_per_cell": 1000,
+    "attempts_per_run": 9000,
+    "metrics": [
+      "validity_pct",
+      "uniqueness_pct",
+      "novelty_pct",
+      "target_pass_pct",
+      "yield_raw_target_pct",
+      "yield_unique_target_pct",
+      "yield_unique_novel_target_pct"
+    ],
+    "predictor": "unchanged frozen three-seed LightGBM Morgan count ensemble",
+    "solvation_max_eV": -1.5,
+    "LUMO_max_eV": -4.0,
+    "identity": "non-isomeric canonical SMILES for deduplication and novelty",
+    "novelty_reference_n": 30829,
+    "novelty_reference": "full fixed RedDB training split for both arms",
+    "generation_batch_size": 256,
+    "decoding_rng": "historical arm-specific SHA256 P3A e/d baseline rules, only training seed substituted; all864 RNG entries fixed before fitting",
+    "inference": "unchanged sampler and precision, ordinary graph only after bitwise native-eager parity on311validation inputs; native eager fallback otherwise",
+    "aggregation": "each metric per1000-attempt cell, unweighted mean of nine cells per training seed; no treating cells or molecules as independent training replicates",
+    "complete_pool": "deduplicate predicted targets across nine cells within each9000-attempt run; retain descriptive count separately"
+  },
+  "statistics": {
+    "primary_metric": "yield_unique_novel_target_pct",
+    "primary_metric_definition": "100 times number of distinct valid predicted target molecules absent from full30829training reference, divided by1000 attempts in each cell; average nine cells within seed",
+    "contrast": "Continuous10 minus Hard10, percentage points",
+    "unit": "matched fine-tuning seed pair within backbone; decoding streams differ between methods",
+    "n_pairs": 16,
+    "df": 15,
+    "test": "two-sided paired t test for mean difference against zero, fixed a priori",
+    "family": "exactly three primary tests, one per backbone",
+    "family_alpha": 0.05,
+    "correction": "Bonferroni3: adjusted p=min(3*p,1)",
+    "report": [
+      "all16 paired differences",
+      "arm mean and sampleSD",
+      "mean paired difference in percentage points",
+      "unadjusted two-sided95% t interval",
+      "Bonferroni simultaneous98.3333333333% t interval",
+      "raw and Bonferroni3 adjusted p"
+    ],
+    "superiority_rule": "backbone-specific superiority on primary endpoint only if mean difference>0 and Bonferroni3 adjusted p<.05; equivalent to lower simultaneous CI>0 for nondegenerate differences",
+    "across_backbone_rule": "claim superiority in all three backbones only if each of three tests meets its rule; no pooled-backbone rescue or selecting favorable backbones",
+    "planning_reference_pp": 1.0,
+    "planning_reference_note": "1percentage-point improvement was sample-size planning reference, not an assumed outcome and not a separate tested superiority margin; compare observed magnitude and interval to this reference",
+    "secondary": "six other original cell metrics and complete9000-pool count, descriptive means, sampleSD, paired differences; no secondary confirmatory p values",
+    "existing_tests": "prior3seed exploratory findings and original14/7test corrections remain unchanged, are not pooled into the new16pair primary analyses",
+    "zero_variance": "all paired differences exactly zero => t0,p1 and zero-width CI0; constant nonzero difference => flag degenerate variance, no automatic superiority; require review without switching test post hoc",
+    "nonfinite": "do not drop or impute invalid primary values; mark final study incomplete for review",
+    "outliers": "retain all valid technical runs regardless of outcome; no performance-driven exclusions",
+    "inference_gating": "no aggregate primary p values or superiority judgments until all96jobs have valid training,generation,scoring records"
+  },
+  "stopping_and_failures": {
+    "stopping": "exactly16new seed pairs in each backbone; no significance-based stopping or sample-size extension",
+    "technical_failures": "record all failures; at most one automatic restart of identical seed and settings; preserve failed-attempt logs; never substitute a seed based on outcome",
+    "incomplete": "if a pair cannot be completed, no16pair confirmatory conclusion; report missing pair rather than analyzing a selected subset",
+    "retry": "successful completed training reused if only generation/scoring fails; failed training restarts from original shared pretrained checkpoint, with failed files preserved",
+    "resume": "skip only integrity-checked complete stages; no retraining a successful run for a preferred outcome"
+  },
+  "resources": {
+    "GPU_workers_max": 4,
+    "GPU_mem_limit_MB_per_worker": 5000,
+    "TF_intra_threads": 2,
+    "TF_inter_threads": 2,
+    "OMP_threads": 2,
+    "schedule": "oneTCNlane plus three recurrent lanes; afterTCNlane ends it can process remaining recurrent runs; paired arm order alternates by seed index"
+  },
+  "scope_limits": [
+    "conditional on existing fixed pretraining checkpoints and frozen predictor",
+    "predicted target generation performance only, not DFT or electrolyte validation",
+    "whole adaptation strategy comparison, no causal attribution to retention alone",
+    "same updates do not equalize molecule exposure"
+  ],
+  "excluded": [
+    "other experimental arms",
+    "new data or splits",
+    "new pretraining",
+    "hyperparameter search",
+    "predictor refitting",
+    "DFT",
+    "previous outcomes in new primary tests",
+    "manuscript edits"
+  ]
+}

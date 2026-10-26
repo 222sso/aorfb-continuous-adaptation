@@ -1,0 +1,9 @@
+# Training/screening source-code dependencies. Full replay was not performed.
+# This is not a recovered complete historical lockfile.
+-r requirements-analysis.txt
+tensorflow==2.20.0
+lightgbm==4.6.0
+scikit-learn==1.7.2
+catboost==1.2.8
+xgboost==3.0.4
+h5py==3.11.0
