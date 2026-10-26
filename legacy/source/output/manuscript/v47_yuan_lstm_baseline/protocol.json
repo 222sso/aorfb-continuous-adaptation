@@ -1,0 +1,109 @@
+{
+  "frozen_at_utc": "2026-10-20T09:18:04.528895+00:00",
+  "condition": "yuan_target_subset_tl",
+  "dataset": "current manuscript RedDB only",
+  "source": {
+    "citation": "Yuan et al., Nanoscale 2020, 12, 6744–6758",
+    "doi": "10.1039/C9NR10687A",
+    "interpretation": "Target-property subset fine-tuning adapted to existing LSTM; not a replication of original GRU architecture or original dataset."
+  },
+  "training": {
+    "backbone": "B_LSTM",
+    "parameters": 409640,
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "initial_checkpoint": "ckpt_pretrain_B_LSTM_union.weights.h5",
+    "pretraining": "existing identical ChEMBL checkpoint; no new pretraining",
+    "vocab": "existing union vocabulary, 40 tokens",
+    "max_len": 128,
+    "target_subset_n": 1529,
+    "subset_selection": "is_target in original train split only",
+    "chembl_replay_fraction": 0,
+    "sampling": "uniform shuffle, repeat after batch",
+    "loss": "unit non-padding token weights; same Adam and sparse categorical cross-entropy",
+    "lr": 0.0001,
+    "batch_size": 32,
+    "steps_per_epoch": 800,
+    "max_epochs": 10,
+    "early_stopping_patience": 5,
+    "selection": "minimum common unit-weight val_loss",
+    "common_validation_n": 311,
+    "all_layers_trainable": true,
+    "recurrent_dropout": 0.1,
+    "note": "Same update budget, not same target-molecule exposure: existing hard mixes 50% ChEMBL; target-only TL does not."
+  },
+  "generation": {
+    "temperatures": [
+      0.7,
+      0.9,
+      1.1
+    ],
+    "top_ps": [
+      0.75,
+      0.85,
+      0.95
+    ],
+    "attempts_per_cell": 1000,
+    "attempts_per_seed": 9000,
+    "total_new_attempts": 27000,
+    "batch_size": 256,
+    "sampler": "unchanged batch_sampling_v2.generate_smiles_batched",
+    "seed_rule": "int(sha256(f'v47_yuan_target_subset_tl|{seed}|{temperature:.2f}|{top_p:.2f}').hexdigest()[:8],16) % 2**31",
+    "seeding_note": "New fixed stable decoding streams; original arm-specific streams remain unchanged. Pairing is by training seed, not identical sampled random numbers."
+  },
+  "evaluation": {
+    "frozen_predictor": "same LightGBM Morgan-count ensemble, seeds42/43/44",
+    "thresholds_eV": {
+      "solv_max": -1.5,
+      "lumo_max": -4.0
+    },
+    "identity": "RDKit non-isomeric canonical SMILES",
+    "novelty_reference": "entire fixed 30829 RedDB training molecules, never target subset only",
+    "metrics": [
+      "validity_pct",
+      "uniqueness_pct",
+      "novelty_pct",
+      "target_pass_pct",
+      "yield_raw_target_pct",
+      "yield_unique_target_pct",
+      "yield_unique_novel_target_pct"
+    ],
+    "aggregation": "mean over nine decoding cells per seed, then mean and sample SD over three seeds",
+    "references": "only manuscript LSTM equal/hard/soft, seeds42/43/44",
+    "primary_interpretation": "unique target yield and unique novel target yield at fixed attempt budget",
+    "statistics": "Exploratory paired two-sided t tests across training seeds; one NEW Bonferroni family of 3 contrasts x 7 metrics = 21. Original 42-test family untouched.",
+    "limits": "n=3 training seeds, one fixed pretraining seed; frozen predictor outputs are not new DFT verification. Differences from soft involve support, weighting, and ChEMBL replay."
+  },
+  "scope": "No other datasets, external experiment results, predictor refitting, hyperparameter search, new DFT, or existing-run regeneration.",
+  "frozen_inputs_sha256": "a7ea83ca02abd380180de3184ca5093f43a0238437e2b5b331330c082a4a21cc",
+  "protocol_revision": 2,
+  "initial_frozen_at_utc": "2026-10-20T08:45:56.707867+00:00",
+  "training_execution_amendment": {
+    "recorded_at_utc": "2026-10-20T09:18:04.528895+00:00",
+    "original_protocol_sha256": "a331851baf489370e8e260d93a13bb763bd828ad79f52a9dda70feaa74ddc665",
+    "change": "Execution only: XLA compilation of the unchanged B_LSTM graph with full float32 matmuls during training/common validation. Final generation and scoring remain unchanged.",
+    "reason": "Synthetic tensor throughput diagnostic, followed by all311 common-validation-input numerical equivalence check on nonpadding tokens. No generated molecules or predictor target metrics existed at the change.",
+    "partial_training_before_amendment": "The initial ordinary-graph run reached one complete epoch and part of epoch2 in each seed. Those logs/checkpoints are retained only in _execution_history, excluded from every comparison and result archive.",
+    "restart": "All three final seeds restart from the identical original ChEMBL-pretrained checkpoint. No partial weights, optimizer states, or prior checkpoints are reused.",
+    "unchanged": [
+      "training seeds",
+      "architecture and recurrent dropout",
+      "target subset",
+      "common validation set and checkpoint-selection rule",
+      "optimizer and learning rate",
+      "update and epoch budget",
+      "decoding sampler, grid, attempt budget and seed rule",
+      "frozen property predictor",
+      "novelty reference",
+      "metric definitions",
+      "statistical test family",
+      "existing manuscript and reference outputs"
+    ],
+    "precision_disclosure": "Existing reference training used its original default backend. The new compiled training uses full float32 matmuls to avoid TF32 approximation. Variables remain float32. No runtime superiority claim will be made.",
+    "equivalence_record": "execution_parity_audit.json",
+    "initial_history_folder": "_execution_history (excluded from comparison and delivery archive)"
+  }
+}

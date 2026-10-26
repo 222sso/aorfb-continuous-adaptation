@@ -1,0 +1,16 @@
+{
+  "purpose": "Only experiments requested by v47 feedback 4 and 5",
+  "backbone": "TCN / A_TCN, same fixed pretrained checkpoint as manuscript Table 1",
+  "fine_tuning_seeds": [42, 43, 44],
+  "new_conditions": {
+    "sampling_only": {"training_molecules":30829,"high_pool_threshold":1.2,"high_pool_probability":0.90,"loss_weight":1},
+    "loss_only": {"training_molecules":30829,"sampling":"ordinary shuffled full training set, without preferential high-pool sampling","loss_weight":"original continuous property_weight"},
+    "equal1529": {"training_molecules":1529,"sampling":"uniform random subset without target filtering, selection seed = 10000 + fine-tuning seed","loss_weight":1}
+  },
+  "existing_reference_conditions": ["Manuscript Table 1 TCN equal", "Manuscript Table 1 TCN hard", "Manuscript Table 1 TCN continuous / soft"],
+  "excluded": "All unrelated previous experiments, alternative operating points, external datasets and new architectures",
+  "training": {"RedDB_ChEMBL_mix":0.5,"batch_size":32,"learning_rate":0.0001,"steps_per_epoch":800,"max_epochs":10,"early_stopping_patience":5,"checkpoint_selection":"same unweighted 311-molecule common validation loss"},
+  "decoding": {"temperature":[0.7,0.9,1.1],"top_p":[0.75,0.85,0.95],"attempts_per_cell":1000,"attempts_per_run":9000,"new_generation_seed":"SHA256 of v47_feedback_04_05|training_seed|temperature:.2f|top_p:.2f; identical between new controls"},
+  "evaluation": "Frozen manuscript three-seed LightGBM Morgan-count ensemble; thresholds -1.5 eV and -4.0 eV; identical per-cell denominators and deduplication; nine-cell mean within seed followed by mean and sample SD across three seeds",
+  "interpretation": "TCN-specific diagnostic. Size control addresses molecule count, not proof of overfitting mechanism or an optimal threshold. Component ablation compares specified sampling and loss choices and does not establish cross-backbone generality."
+}
