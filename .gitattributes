@@ -1,0 +1,2 @@
+# Preserve the frozen source/configuration bytes used by SHA256 checks.
+* -text
